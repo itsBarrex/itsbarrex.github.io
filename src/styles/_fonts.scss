@@ -1,0 +1,71 @@
+/**
+ * Self-hosted webfonts: Rajdhani 700 (display) and Space Grotesk (body).
+ *
+ * These are the two families barrex.stream already uses, so both of the
+ * client's sites render identically (see Atlas's brand notes on VEG-2/VEG-3).
+ *
+ * WHY SELF-HOSTED rather than a <link> to fonts.googleapis.com:
+ * hotlinking Google Fonts sends every visitor's IP address to Google, which a
+ * German court (LG München I, 3 O 17493/20) held to be an unlawful transfer
+ * under the GDPR. The client is German and publishes an Impressum, so the
+ * files are served from our own origin instead. Nothing here contacts a third
+ * party at runtime.
+ *
+ * The files live under src/ (not public/) so the Angular build fingerprints
+ * them and rewrites these url()s to hashed paths that stay correct under
+ * --base-href. Do not move them to public/ — the relative url() would then
+ * resolve against the wrong directory on GitHub Pages.
+ *
+ * `font-display: swap` shows text in a fallback face immediately rather than
+ * blocking the hero on a font download over a phone connection.
+ */
+
+/* --- Rajdhani 700 — display / headings ---------------------------------- */
+
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./fonts/rajdhani-700-latin.woff2') format('woff2');
+  /* Latin covers the German umlauts and ß (ä U+00E4, ö U+00F6, ü U+00FC, ß U+00DF). */
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./fonts/rajdhani-700-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* --- Space Grotesk — body ----------------------------------------------- */
+/* One variable file covers 400–700, so weights cost no extra requests. */
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('./fonts/space-grotesk-var-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('./fonts/space-grotesk-var-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}

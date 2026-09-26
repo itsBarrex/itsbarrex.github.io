@@ -1,0 +1,79 @@
+{
+  "//": [
+    "Copy this file to the ROOT of a tool's own repository and rename it tool.json.",
+    "",
+    "It is optional. A repo with the topic `barrex-tool` is listed on the site with",
+    "or without it — without one, the site uses the repo description and the first",
+    "paragraph of the README. This file is how you get proper German copy,",
+    "requirements and install steps onto the tool page.",
+    "",
+    "Version, release date, changelog and the download link are NEVER written here.",
+    "They come from the repo's GitHub Releases automatically, so they cannot go",
+    "stale. Publish a release and the site picks it up within 6 hours.",
+    "",
+    "Remember the two topics on the repo itself:",
+    "  barrex-tool                      required — this is what opts the repo in",
+    "  streamerbot | obs | app          optional — sets the type shown on the card",
+    "",
+    "Every text field takes { \"de\": ..., \"en\": ... }. A plain string instead of an",
+    "object is used for both languages. Delete any field you do not need — an",
+    "absent field is handled, an empty one is not an error either.",
+    "",
+    "Delete this \"//\" block in the real file. JSON has no comments."
+  ],
+
+  "slug": "phantom-mirror",
+  "name": "Phantom Mirror",
+
+  "category": "app",
+
+  "status": "development",
+
+  "summary": {
+    "de": "Spiegelt jede Spout2- oder NDI-Quelle als schwebendes Fenster auf deinen zweiten Monitor.",
+    "en": "Mirrors any Spout2 or NDI source into a floating window on your second monitor."
+  },
+
+  "description": {
+    "de": [
+      "Erster Absatz — zwei bis drei Sätze reichen.",
+      "Zweiter Absatz, falls nötig."
+    ],
+    "en": ["First paragraph — two or three sentences is plenty.", "Second paragraph if needed."]
+  },
+
+  "requirements": {
+    "de": ["Windows 10 oder 11 (64-Bit)", "OBS Studio 30 oder neuer", "Spout2 oder NDI"],
+    "en": ["Windows 10 or 11 (64-bit)", "OBS Studio 30 or newer", "Spout2 or NDI"]
+  },
+
+  "install": {
+    "de": [
+      "Release herunterladen und entpacken.",
+      "In OBS das Spout2-Plugin oder den NDI-Output aktivieren.",
+      "PhantomMirror.exe starten und die Quelle auswählen."
+    ],
+    "en": [
+      "Download the release and unpack it.",
+      "Enable the Spout2 plugin or the NDI output in OBS.",
+      "Run PhantomMirror.exe and pick your source."
+    ]
+  },
+
+  "screenshot": {
+    "src": "https://raw.githubusercontent.com/itsBarrex/phantom-mirror/main/docs/screenshot.png",
+    "alt": {
+      "de": "Phantom Mirror zeigt ein OBS-Overlay in einem eigenen Fenster.",
+      "en": "Phantom Mirror showing an OBS overlay in its own window."
+    }
+  },
+
+  "video": {
+    "kind": "youtube",
+    "id": "REPLACE_WITH_VIDEO_ID",
+    "title": {
+      "de": "Phantom Mirror in 60 Sekunden",
+      "en": "Phantom Mirror in 60 seconds"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "_comment": "GENERATED FILE — do not edit by hand. scripts/generate-tools.mjs overwrites it on every build from the GitHub repos carrying the barrex-tool topic. It is committed empty on purpose: if the GitHub call ever fails, this is what gets published, and an empty list makes the site fall back to the hand-written tools in src/app/content/tools.ts rather than publishing stale or wrong releases. To work on the release, changelog and download UI locally, copy fixtures/tools.example.json over this file — and do not commit that.",
+  "generatedAt": null,
+  "owner": "itsBarrex",
+  "topic": "barrex-tool",
+  "tools": []
+}

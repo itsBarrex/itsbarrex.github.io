@@ -1,0 +1,145 @@
+.tc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  height: 100%;
+  padding: var(--s-5);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color var(--dur) var(--ease),
+    background-color var(--dur) var(--ease);
+}
+
+.tc:hover {
+  background: var(--c-surface-hover);
+  border-color: var(--c-border-strong);
+}
+
+.tc__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.tc__icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  border-radius: var(--r-sm);
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+}
+
+/* Placeholder cards get a flat surface, so the gold only ever marks real work. */
+.tc__icon--muted {
+  background: var(--c-bg-inset);
+  color: var(--c-text-faint);
+}
+
+.tc__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--s-2);
+}
+
+.tc__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem var(--s-2);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--c-border-strong);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  color: var(--c-text-muted);
+  white-space: nowrap;
+}
+
+/* Status is carried by the text, not only the colour — the border is a hint for
+   people who can see it and irrelevant to everyone else. */
+.tc__chip--status[data-status='live'] {
+  border-color: var(--c-accent);
+  color: var(--c-text);
+}
+
+.tc__chip--status[data-status='beta'] {
+  border-color: var(--c-accent-strong);
+}
+
+.tc__name {
+  font-size: var(--fs-h3);
+  margin-top: var(--s-1);
+}
+
+.tc__name a {
+  text-decoration: none;
+}
+
+.tc__name a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--c-accent);
+  text-underline-offset: 0.25em;
+}
+
+.tc__summary {
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  /* Keeps a long description from making one card twice the height of its row. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Muted, not faint: every colour in here sits on the card's surface-soft fill,
+   where faint drops to 4.44:1 (VEG-4 finding 3). The uppercase micro size is
+   what separates these from the body copy, not the alpha. */
+.tc__flag {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.tc__release {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-3);
+  margin: 0;
+  /* Pushes the actions to the bottom so every card in a row lines up. */
+  margin-top: auto;
+  padding-top: var(--s-3);
+  font-size: var(--fs-micro);
+  color: var(--c-text-muted);
+}
+
+.tc__release dt {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tc__release dd {
+  margin: 0;
+  color: var(--c-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tc__release dt + dd {
+  margin-right: var(--s-3);
+}
+
+.tc__none {
+  color: var(--c-text-muted);
+}
+
+.tc__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}

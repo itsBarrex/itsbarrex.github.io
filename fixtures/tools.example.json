@@ -1,0 +1,94 @@
+{
+  "_comment": "Development fixture in the exact shape scripts/generate-tools.mjs produces. Copy it over public/tools.json to work on the release, changelog and download UI without GitHub access — and do not commit that copy. The unit tests import this file directly, so it is also what pins the contract between the generator and the app: if the generator's output shape changes, change this file and the specs fail until the app agrees. Covers the two cases that matter: a repo with a tool.json, a release and assets, and a bare repo with neither.",
+  "generatedAt": "2026-09-25T18:00:00.000Z",
+  "owner": "itsBarrex",
+  "topic": "barrex-tool",
+  "tools": [
+    {
+      "slug": "phantom-mirror",
+      "name": "Phantom Mirror",
+      "category": "app",
+      "status": "development",
+      "repoUrl": "https://github.com/itsBarrex/phantom-mirror",
+      "summary": {
+        "de": "Spiegelt jede Spout2- oder NDI-Quelle als schwebendes Fenster auf deinen zweiten Monitor.",
+        "en": "Mirrors any Spout2 or NDI source into a floating window on your second monitor."
+      },
+      "description": {
+        "de": [
+          "Phantom Mirror nimmt eine Spout2- oder NDI-Quelle und zeigt sie als randloses Fenster an, das du frei positionieren kannst.",
+          "Gedacht für alles, was du im Auge behalten musst, während du spielst."
+        ],
+        "en": [
+          "Phantom Mirror takes a Spout2 or NDI source and shows it as a borderless window you can place anywhere.",
+          "Meant for whatever you need to keep an eye on while you play."
+        ]
+      },
+      "requirements": {
+        "de": ["Windows 10 oder 11 (64-Bit)", "OBS Studio 30 oder neuer", "Spout2 oder NDI"],
+        "en": ["Windows 10 or 11 (64-bit)", "OBS Studio 30 or newer", "Spout2 or NDI"]
+      },
+      "install": {
+        "de": [
+          "Release herunterladen und entpacken.",
+          "In OBS das Spout2-Plugin oder den NDI-Output aktivieren.",
+          "PhantomMirror.exe starten und die Quelle auswählen."
+        ],
+        "en": [
+          "Download the release and unpack it.",
+          "Enable the Spout2 plugin or the NDI output in OBS.",
+          "Run PhantomMirror.exe and pick your source."
+        ]
+      },
+      "screenshot": null,
+      "video": null,
+      "release": {
+        "version": "v0.4.2",
+        "publishedAt": "2026-09-20T17:12:00Z",
+        "url": "https://github.com/itsBarrex/phantom-mirror/releases/tag/v0.4.2",
+        "download": {
+          "url": "https://github.com/itsBarrex/phantom-mirror/releases/download/v0.4.2/PhantomMirror-0.4.2-win64.zip",
+          "name": "PhantomMirror-0.4.2-win64.zip",
+          "sizeBytes": 18432000
+        }
+      },
+      "changelog": [
+        {
+          "version": "v0.4.2",
+          "date": "2026-09-20T17:12:00Z",
+          "url": "https://github.com/itsBarrex/phantom-mirror/releases/tag/v0.4.2",
+          "notes": "## Behoben\n- NDI-Quellen mit Leerzeichen im Namen wurden nicht gefunden\n- Fenster sprang beim Neustart auf den Hauptmonitor\n\n## Neu\n- Fenstergröße wird gespeichert"
+        },
+        {
+          "version": "v0.4.1",
+          "date": "2026-09-06T09:40:00Z",
+          "url": "https://github.com/itsBarrex/phantom-mirror/releases/tag/v0.4.1",
+          "notes": "Erste öffentliche Testversion mit Spout2-Unterstützung."
+        }
+      ],
+      "hasToolJson": true
+    },
+    {
+      "slug": "sb-clip-collector",
+      "name": "sb-clip-collector",
+      "category": "streamerbot",
+      "status": "development",
+      "repoUrl": "https://github.com/itsBarrex/sb-clip-collector",
+      "summary": {
+        "de": "Collects clips created during a stream and posts them to Discord.",
+        "en": "Collects clips created during a stream and posts them to Discord."
+      },
+      "description": {
+        "de": ["A small Streamerbot action set for collecting clips as they happen."],
+        "en": ["A small Streamerbot action set for collecting clips as they happen."]
+      },
+      "requirements": {},
+      "install": {},
+      "screenshot": null,
+      "video": null,
+      "release": null,
+      "changelog": [],
+      "hasToolJson": false
+    }
+  ]
+}

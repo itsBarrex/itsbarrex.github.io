@@ -1,0 +1,112 @@
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: block;
+  background: color-mix(in srgb, var(--c-bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.hdr__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: var(--header-h);
+}
+
+.hdr__brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Mobile: the section links scroll horizontally rather than hiding behind a
+   hamburger — two links do not earn a menu, and nothing may push the page
+   sideways at 390px. */
+.hdr__nav {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hdr__nav::-webkit-scrollbar {
+  display: none;
+}
+
+.hdr__list {
+  display: flex;
+  gap: var(--s-1);
+  margin: 0;
+}
+
+/* 44px, not 40 — the touch target floor. It fits inside the 56px header row
+   (VEG-4 finding 7). */
+.hdr__link {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding-inline: var(--s-3);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-small);
+  color: var(--c-text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color var(--dur) var(--ease),
+    background-color var(--dur) var(--ease);
+}
+
+.hdr__link:hover {
+  color: var(--c-text);
+  background: var(--c-surface-hover);
+}
+
+.hdr__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex-shrink: 0;
+}
+
+/* Both toggles are real <button>s: they change the page, they do not navigate. */
+.hdr__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding-inline: var(--s-3);
+  background: transparent;
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition:
+    border-color var(--dur) var(--ease),
+    background-color var(--dur) var(--ease);
+}
+
+.hdr__toggle:hover {
+  border-color: var(--c-accent);
+  background: var(--c-surface-hover);
+}
+
+.hdr__toggle--icon {
+  padding-inline: 0;
+}
+
+@media (min-width: 48rem) {
+  .hdr__list {
+    justify-content: flex-end;
+    gap: var(--s-2);
+  }
+}

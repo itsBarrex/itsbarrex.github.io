@@ -1,0 +1,293 @@
+.tp {
+  padding-block: var(--s-5) var(--s-7);
+}
+
+.tp__back a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--fs-small);
+  color: var(--c-text-muted);
+  text-decoration: none;
+}
+
+.tp__back a:hover {
+  color: var(--c-text);
+}
+
+.tp__head {
+  padding-bottom: var(--s-5);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.tp__name {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.02em;
+}
+
+.tp__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4) var(--s-6);
+  margin-top: var(--s-4);
+}
+
+.tp__facts dt {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+
+.tp__facts dd {
+  margin: var(--s-1) 0 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.tp__body {
+  display: grid;
+  gap: var(--s-6);
+  margin-top: var(--s-6);
+}
+
+.tp__section {
+  margin-bottom: var(--s-6);
+}
+
+.tp__section h2 {
+  font-size: var(--fs-h3);
+  margin-bottom: var(--s-3);
+}
+
+.tp__section p {
+  color: var(--c-text-muted);
+  margin-bottom: var(--s-3);
+  max-width: var(--w-prose);
+}
+
+.tp__section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-bottom: var(--s-3);
+}
+
+.tp__section-head h2 {
+  margin-bottom: 0;
+}
+
+.tp__copy {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px; /* touch target floor */
+  padding-inline: var(--s-4);
+  background: transparent;
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  cursor: pointer;
+}
+
+.tp__copy:hover {
+  color: var(--c-text);
+  border-color: var(--c-accent);
+}
+
+/* The clipboard's failure state. Empty most of the time — it is a live region,
+   so it has to be in the DOM before it has anything to say, which is why the
+   styling hangs off a bound class rather than :empty. */
+.tp__copy-status--shown {
+  margin-bottom: var(--s-3);
+  max-width: var(--w-prose);
+  font-size: var(--fs-small);
+  color: var(--c-text);
+  border-left: 3px solid var(--c-accent);
+  padding-left: var(--s-3);
+}
+
+/* Used in the Download and Hilfe panels, which are surface-soft cards. Faint
+   composites to 4.44:1 in there and fails AA (VEG-4 finding 3), so this class
+   is muted everywhere rather than faint on the page and muted in a card. */
+.tp__muted {
+  color: var(--c-text-muted);
+}
+
+.tp__figure {
+  margin: 0 0 var(--s-6);
+}
+
+.tp__figure figcaption {
+  margin-top: var(--s-2);
+  font-size: var(--fs-small);
+  color: var(--c-text-faint);
+}
+
+.tp__shot {
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-border);
+}
+
+/* Requirements read as a checklist, not a paragraph. */
+.tp__reqs {
+  display: grid;
+  gap: var(--s-2);
+  max-width: var(--w-prose);
+}
+
+.tp__reqs li {
+  position: relative;
+  padding-left: var(--s-5);
+  color: var(--c-text-muted);
+}
+
+.tp__reqs li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: var(--r-pill);
+  background: var(--c-accent);
+}
+
+/* Install steps keep the real <ol> numbers — they are the instruction order,
+   so they must survive copy-paste and be read out by a screen reader. */
+.tp__steps {
+  display: grid;
+  gap: var(--s-3);
+  max-width: var(--w-prose);
+  padding-left: var(--s-6);
+  list-style: decimal;
+}
+
+.tp__steps li {
+  color: var(--c-text-muted);
+  padding-left: var(--s-2);
+}
+
+.tp__steps li::marker {
+  color: var(--c-accent);
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.tp__changelog {
+  display: grid;
+  gap: var(--s-5);
+  max-width: var(--w-prose);
+}
+
+.tp__changelog > li {
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--c-border-strong);
+}
+
+.tp__changelog h3 {
+  font-size: var(--fs-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.tp__changelog h4 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: 700;
+  margin-top: var(--s-3);
+}
+
+.tp__changelog-date {
+  font-size: var(--fs-micro);
+  color: var(--c-text-faint);
+  margin-top: var(--s-1);
+}
+
+.tp__changelog p {
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  margin-top: var(--s-2);
+}
+
+.tp__changelog ul {
+  display: grid;
+  gap: var(--s-1);
+  margin-top: var(--s-2);
+  padding-left: var(--s-5);
+  list-style: disc;
+}
+
+.tp__changelog ul li {
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+}
+
+/* Mobile: the wrapper dissolves so its two panels become grid items of
+   .tp__body in their own right, and the Download panel can be ordered above
+   the description. It used to sit ~2000px down, after requirements, install
+   and the changelog — last on the page whose whole point it is (VEG-4 finding
+   6). Our reader is on a phone, arriving from a link in his chat. */
+.tp__aside {
+  display: contents;
+}
+
+.tp__panel--download {
+  order: -1;
+}
+
+.tp__panel {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+  box-shadow: var(--shadow-panel);
+}
+
+.tp__panel h2 {
+  font-size: var(--fs-h3);
+}
+
+.tp__download {
+  width: 100%;
+}
+
+.tp__asset {
+  font-size: var(--fs-small);
+  color: var(--c-text-muted);
+  word-break: break-word;
+}
+
+.tp__missing {
+  display: grid;
+  gap: var(--s-4);
+  justify-items: start;
+}
+
+/* Desktop: two columns, so the panels re-form as a real sidebar next to the
+   body copy and the reading order is the visual order again. */
+@media (min-width: 60rem) {
+  .tp__body {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    gap: var(--s-7);
+    /* Without this the sidebar stretches to the row height and `sticky` has
+       nothing to slide inside, so it silently does nothing. */
+    align-items: start;
+  }
+
+  .tp__aside {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-5));
+  }
+
+  .tp__panel--download {
+    order: 0;
+  }
+}

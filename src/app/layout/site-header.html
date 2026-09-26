@@ -1,0 +1,58 @@
+<header class="hdr">
+  <div class="hdr__inner container">
+    <a class="hdr__brand" routerLink="/" [attr.aria-label]="t().header.homeLabel">
+      {{ name }}
+    </a>
+
+    <nav class="hdr__nav" [attr.aria-label]="t().tools.heading">
+      <ul class="hdr__list">
+        <li>
+          <a class="hdr__link" routerLink="/" fragment="tools">{{ t().header.navTools }}</a>
+        </li>
+        <li>
+          <a class="hdr__link" routerLink="/" fragment="what-is-this">
+            {{ t().header.navAbout }}
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="hdr__controls">
+      <!-- Language: the visible label is the language it switches TO, which is
+           the convention every multilingual site uses. lang= on the button
+           stops a screen reader announcing "EN" with a German voice. -->
+      <button
+        type="button"
+        class="hdr__toggle"
+        [attr.aria-label]="t().header.languageLabel"
+        [attr.lang]="other()"
+        (click)="switchLanguage()"
+      >
+        {{ t().header.languageSwitchTo }}
+      </button>
+
+      <button
+        type="button"
+        class="hdr__toggle hdr__toggle--icon"
+        [attr.aria-label]="theme() === 'dark' ? t().header.themeToLight : t().header.themeToDark"
+        (click)="switchTheme()"
+      >
+        @if (theme() === 'dark') {
+          <!-- Sun: clicking goes to the light theme. -->
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor">
+            <path
+              d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-13.5a1 1 0 0 1 1 1V6a1 1 0 0 1-2 0V4.5a1 1 0 0 1 1-1Zm0 15a1 1 0 0 1 1 1V21a1 1 0 0 1-2 0v-1.5a1 1 0 0 1 1-1ZM3.5 12a1 1 0 0 1 1-1H6a1 1 0 0 1 0 2H4.5a1 1 0 0 1-1-1Zm14.5 0a1 1 0 0 1 1-1H21a1 1 0 0 1 0 2h-2a1 1 0 0 1-1-1ZM5.6 5.6a1 1 0 0 1 1.4 0l1 1a1 1 0 0 1-1.4 1.5l-1-1.1a1 1 0 0 1 0-1.4Zm10.4 10.4a1 1 0 0 1 1.4 0l1 1a1 1 0 0 1-1.4 1.4l-1-1a1 1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-1 1A1 1 0 0 1 16 6.6l1-1a1 1 0 0 1 1.4 0ZM8 16a1 1 0 0 1 0 1.4l-1 1a1 1 0 0 1-1.4-1.4l1-1A1 1 0 0 1 8 16Z"
+            />
+          </svg>
+        } @else {
+          <!-- Moon: clicking goes to the dark theme. -->
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor">
+            <path
+              d="M21 14.2A9 9 0 1 1 9.8 3a7.2 7.2 0 0 0 11.2 11.2Zm-2.8-1.6a9.2 9.2 0 0 1-6.8-6.8 7 7 0 1 0 6.8 6.8Z"
+            />
+          </svg>
+        }
+      </button>
+    </div>
+  </div>
+</header>

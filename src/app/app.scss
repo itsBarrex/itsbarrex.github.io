@@ -1,0 +1,18 @@
+/* Keyboard users land here first; it stays hidden until focused. */
+.skip-link {
+  position: absolute;
+  left: var(--s-4);
+  top: var(--s-4);
+  z-index: 100;
+  padding: var(--s-3) var(--s-4);
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+  border-radius: var(--r-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}

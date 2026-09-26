@@ -1,0 +1,234 @@
+@let current = tool();
+
+@if (current) {
+  <article class="tp">
+    <div class="container">
+      <nav class="tp__back" [attr.aria-label]="t().toolPage.breadcrumbLabel">
+        <a routerLink="/" fragment="tools">← {{ t().toolPage.back }}</a>
+      </nav>
+
+      <header class="tp__head">
+        <h1 class="tp__name">{{ current.name }}</h1>
+
+        <dl class="tp__facts">
+          <div>
+            <dt>{{ t().tools.category }}</dt>
+            <dd>{{ t().tools.categories[current.category] }}</dd>
+          </div>
+          <div>
+            <dt>{{ t().tools.status }}</dt>
+            <dd>{{ t().tools.statuses[current.status] }}</dd>
+          </div>
+          @if (current.release) {
+            <div>
+              <dt>{{ t().tools.version }}</dt>
+              <dd>{{ current.release.version }}</dd>
+            </div>
+          }
+          @if (released()) {
+            <div>
+              <dt>{{ t().tools.updated }}</dt>
+              <dd>{{ released() }}</dd>
+            </div>
+          }
+        </dl>
+      </header>
+
+      <div class="tp__body">
+        <div class="tp__main">
+          @if (description().length) {
+            <section class="tp__section">
+              <h2>{{ t().toolPage.about }}</h2>
+              @for (paragraph of description(); track $index) {
+                <p>{{ paragraph }}</p>
+              }
+            </section>
+          }
+
+          <!-- Media: a still is a plain lazy image; a clip goes behind
+               click-to-load so no third party is contacted unasked. -->
+          @if (current.screenshot) {
+            <figure class="tp__figure">
+              <img
+                class="tp__shot"
+                [src]="current.screenshot.src"
+                [alt]="screenshotAlt()"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          }
+
+          @if (videoSrc()) {
+            <figure class="tp__figure">
+              <app-click-to-load
+                [src]="videoSrc()!"
+                [title]="videoTitle()"
+                [provider]="videoProvider()"
+              />
+              @if (videoTitle()) {
+                <figcaption>{{ videoTitle() }}</figcaption>
+              }
+            </figure>
+          }
+
+          <section class="tp__section">
+            <h2>{{ t().toolPage.requirements }}</h2>
+            @if (requirements().length) {
+              <ul class="tp__reqs">
+                @for (item of requirements(); track $index) {
+                  <li>{{ item }}</li>
+                }
+              </ul>
+            } @else {
+              <p class="tp__muted">{{ t().toolPage.requirementsEmpty }}</p>
+            }
+          </section>
+
+          <section class="tp__section">
+            <div class="tp__section-head">
+              <h2>{{ t().toolPage.install }}</h2>
+              @if (install().length) {
+                <button type="button" class="tp__copy" (click)="copyInstall()">
+                  {{ copyState() === 'copied' ? t().toolPage.copied : t().toolPage.copyStep }}
+                </button>
+              }
+            </div>
+
+            <!-- Present even when empty: a live region has to exist before its
+                 content changes, or nothing is announced. -->
+            <p
+              class="tp__copy-status"
+              [class.tp__copy-status--shown]="copyState() === 'failed'"
+              role="status"
+              aria-live="polite"
+            >
+              @if (copyState() === 'failed') {
+                {{ t().toolPage.copyFailed }}
+              }
+            </p>
+            @if (install().length) {
+              <ol class="tp__steps">
+                @for (step of install(); track $index) {
+                  <li>{{ step }}</li>
+                }
+              </ol>
+            } @else {
+              <p class="tp__muted">{{ t().toolPage.installEmpty }}</p>
+            }
+          </section>
+
+          <section class="tp__section">
+            <h2>{{ t().toolPage.changelog }}</h2>
+            @if (changelog().length) {
+              <ol class="tp__changelog">
+                @for (entry of changelog(); track entry.version) {
+                  <li>
+                    <h3>
+                      <a [href]="entry.url" target="_blank" rel="noopener">{{ entry.version }}</a>
+                    </h3>
+                    @if (entry.date) {
+                      <p class="tp__changelog-date">{{ entry.date }}</p>
+                    }
+                    @if (entry.blocks.length) {
+                      @for (block of entry.blocks; track $index) {
+                        @switch (block.kind) {
+                          @case ('heading') {
+                            <h4>{{ block.text }}</h4>
+                          }
+                          @case ('list') {
+                            <ul>
+                              @for (item of block.items; track $index) {
+                                <li>{{ item }}</li>
+                              }
+                            </ul>
+                          }
+                          @default {
+                            <p>{{ block.text }}</p>
+                          }
+                        }
+                      }
+                    } @else {
+                      <p class="tp__muted">{{ t().toolPage.changelogEmpty }}</p>
+                    }
+                  </li>
+                }
+              </ol>
+            } @else {
+              <p class="tp__muted">{{ t().toolPage.changelogEmpty }}</p>
+            }
+          </section>
+        </div>
+
+        <!--
+          Not an <aside>: on a phone this collapses to `display: contents` so
+          the Download panel can sit directly under the title, above the
+          description (VEG-4 finding 6). It is the reason the page exists and it
+          used to be ~2000px down. Each panel is a named region instead, which
+          is better to navigate than one unlabelled complementary landmark.
+        -->
+        <div class="tp__aside">
+          <section class="card tp__panel tp__panel--download" aria-labelledby="tp-download">
+            <h2 id="tp-download">{{ t().toolPage.downloadHeading }}</h2>
+            @if (current.release?.download) {
+              <a
+                class="btn btn--primary tp__download"
+                [href]="current.release!.download!.url"
+                target="_blank"
+                rel="noopener"
+              >
+                {{ t().toolPage.downloadCta }}
+              </a>
+              <p class="tp__asset">
+                {{ current.release!.download!.name }}
+                @if (downloadSize()) {
+                  <span class="tp__muted"> · {{ downloadSize() }}</span>
+                }
+              </p>
+            } @else {
+              <!-- Only promise a public source when there is a button under it
+                   to deliver one. VEG-4 finding 1. -->
+              <p class="tp__muted">
+                {{ current.repoUrl ? t().toolPage.downloadNoneSource : t().toolPage.downloadNone }}
+              </p>
+            }
+
+            @if (current.repoUrl) {
+              <a class="btn btn--ghost" [href]="current.repoUrl" target="_blank" rel="noopener">
+                {{ t().toolPage.sourceCta }}
+              </a>
+            } @else if (!current.release?.download) {
+              <!-- Nothing to download and no public repo — Phantom Mirror's
+                   launch state, and the only real tool on the site. Without
+                   this the panel is a heading and a sentence, so the visitor
+                   who came to get the tool leaves with nowhere to go (VEG-4
+                   finding 1). The Discord is where he announces releases, and
+                   on a phone the Hilfe panel that also links it is now at the
+                   far end of the page. -->
+              <a class="btn btn--ghost" [href]="supportUrl" target="_blank" rel="noopener">
+                {{ t().toolPage.notifyCta }}
+              </a>
+            }
+          </section>
+
+          <section class="card tp__panel tp__panel--support" aria-labelledby="tp-support">
+            <h2 id="tp-support">{{ t().toolPage.support }}</h2>
+            <p class="tp__muted">{{ t().toolPage.supportBody }}</p>
+            <a class="btn btn--ghost" [href]="supportUrl" target="_blank" rel="noopener">
+              {{ t().toolPage.supportCta }}
+            </a>
+          </section>
+        </div>
+      </div>
+    </div>
+  </article>
+} @else {
+  <!-- Unknown slug: an old Discord link, or a tool that was renamed. -->
+  <section class="section">
+    <div class="container tp__missing">
+      <h1 class="section__heading">{{ t().toolPage.notFoundHeading }}</h1>
+      <p class="section__blurb">{{ t().toolPage.notFoundBody }}</p>
+      <a class="btn btn--primary" routerLink="/" fragment="tools">{{ t().toolPage.back }}</a>
+    </div>
+  </section>
+}

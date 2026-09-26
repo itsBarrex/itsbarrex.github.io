@@ -1,0 +1,220 @@
+@use './styles/fonts';
+@use './styles/tokens';
+
+/* --- Reset -------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  /* Anchor nav must not drop the heading under the sticky header. */
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + var(--s-4));
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  /* Mobile first: nothing may push the page sideways at 390px. */
+  overflow-x: hidden;
+}
+
+img,
+svg,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  /* Rajdhani is the display face; it only ships a 700 here, so never ask for
+     another weight on a heading or the browser will synthesise it. */
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: var(--lh-snug);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* --- Focus -------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 3px solid var(--c-focus);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+/* --- Shared primitives -------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--w-content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--s-section);
+  scroll-margin-top: calc(var(--header-h) + var(--s-4));
+}
+
+.section__heading {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.02em;
+}
+
+.section__blurb {
+  margin-top: var(--s-3);
+  max-width: var(--w-prose);
+  color: var(--c-text-muted);
+}
+
+.eyebrow {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  font-weight: 600;
+}
+
+.card {
+  background: var(--c-bg-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: var(--s-5);
+}
+
+/* Buttons — real <a>/<button> elements, never a styled div. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 44px; /* touch target floor */
+  padding: var(--s-3) var(--s-5);
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  font-size: var(--fs-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn--primary {
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+}
+
+.btn--primary:hover {
+  background: var(--c-accent-strong);
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--c-border-strong);
+  color: var(--c-text);
+}
+
+.btn--ghost:hover {
+  border-color: var(--c-text-muted);
+  background: var(--c-surface-hover);
+}
+
+/* Card-sized variant: smaller type and tighter padding, but the same 44px
+   touch target. It used to be 36px, which measured 41.1px composited and still
+   missed the floor (VEG-4 finding 7) — and "Details" is the main action on
+   every card in the grid. */
+.btn--small {
+  min-height: 44px;
+  padding: var(--s-2) var(--s-4);
+  font-size: var(--fs-small);
+}
+
+/* Visually hidden but available to screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 16:9 wrapper for every iframe on the page. */
+.embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  background: var(--c-bg-inset);
+  border: 1px solid var(--c-border);
+}
+
+.embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

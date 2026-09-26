@@ -1,0 +1,67 @@
+/**
+ * Tailwind, wired to the brand tokens.
+ *
+ * His stack is Angular + Tailwind, so this site uses it too — he has to be able
+ * to maintain both without switching idiom.
+ *
+ * Two deliberate choices:
+ *
+ * 1. **Preflight is not imported.** Tailwind's base reset would fight the one in
+ *    styles.scss, which the components already depend on. Importing only `theme`
+ *    and `utilities` gives the utility classes and the theme variables with no
+ *    reset at all, so nothing that already works changes appearance.
+ *
+ * 2. **The theme reads the CSS custom properties rather than redeclaring
+ *    colours.** `bg-surface` and the hand-written `.card` therefore resolve to
+ *    the same value, and the light theme keeps working for both, because
+ *    --c-surface is re-pointed by [data-theme] at runtime. Hard-coding the hexes
+ *    here would silently break light mode for every utility class.
+ *
+ * A restyle is still an edit to styles/_tokens.scss and nothing else.
+ */
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/* Angular templates live here; Tailwind scans them for used classes. */
+@source './app';
+@source './index.html';
+
+@theme {
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-surface-hover: var(--c-surface-hover);
+  --color-inset: var(--c-bg-inset);
+  --color-line: var(--c-border);
+  --color-line-strong: var(--c-border-strong);
+  --color-ink: var(--c-text);
+  --color-ink-muted: var(--c-text-muted);
+  --color-ink-faint: var(--c-text-faint);
+  --color-accent: var(--c-accent);
+  --color-accent-soft: var(--c-accent-strong);
+  --color-accent-ink: var(--c-accent-ink);
+  --color-live: var(--c-live);
+
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+
+  /* Prefixed, because `--shadow-card: var(--shadow-card)` would be a cyclic
+     custom property — the name Tailwind wants for the `shadow-card` utility is
+     the same name our token already uses, and a property that references itself
+     resolves to the guaranteed-invalid value. Same reason the font families are
+     absent below. Utilities: `shadow-brand-card`, `shadow-brand-panel`. */
+  --shadow-brand-card: var(--shadow-card);
+  --shadow-brand-panel: var(--shadow-panel);
+}
+
+/**
+ * `--font-sans` and `--font-display` are deliberately NOT declared above.
+ *
+ * Tailwind's own theme already defines `--font-sans`, and `font-sans` emits
+ * `font-family: var(--font-sans)` — which our :root in styles/_tokens.scss
+ * overrides with Space Grotesk. So `font-sans` and `font-display` already
+ * resolve to the brand faces, and declaring them here would only create the
+ * same self-reference described above.
+ */

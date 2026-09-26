@@ -1,0 +1,58 @@
+<!doctype html>
+<!-- lang is German because German is the default. LanguageService rewrites it
+     when the visitor uses the toggle, so screen readers follow the switch. -->
+<html lang="de" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <!-- base href is rewritten at build time by --base-href. See README.md. -->
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>itsBarrex — Tools für Streamer</title>
+    <meta
+      name="description"
+      content="Streamerbot-Erweiterungen, OBS-Plugins und Apps von itsBarrex. Kostenlos, quelloffen, direkt zum Download."
+    />
+    <meta name="theme-color" content="#0b0c10" />
+    <!-- Tells the browser we support both, so form controls and scrollbars match
+         the active theme instead of always rendering light. -->
+    <meta name="color-scheme" content="dark light" />
+
+    <meta property="og:type" content="website" />
+    <!-- German, like the title and description below it: static HTML can only
+         carry one language and German is the default. DocumentMeta rewrites all
+         four the moment the app boots, so a reader on EN gets English tags and
+         a tool page gets the tool's own. -->
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:title" content="itsBarrex — Tools für Streamer" />
+    <meta
+      property="og:description"
+      content="Streamerbot-Erweiterungen, OBS-Plugins und Apps von itsBarrex. Kostenlos, quelloffen, direkt zum Download."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- There is deliberately no preconnect to Twitch or YouTube here. Embeds are
+         click-to-load; a preconnect would open a connection to the provider on
+         page load and undo the reason they are click-to-load in the first
+         place. Fonts are self-hosted, so there is no font origin to warm up
+         either. -->
+  </head>
+  <body>
+    <app-root></app-root>
+    <!-- Both languages: the in-app toggle cannot help someone who has no
+         JavaScript, so the fallback cannot pick one. -->
+    <noscript>
+      <p style="padding: 2rem 2rem 0; font-family: sans-serif" lang="de">
+        Diese Seite braucht JavaScript, um die Tool-Liste anzuzeigen. Alle Tools liegen auch direkt
+        auf GitHub:
+        <a href="https://github.com/itsBarrex?tab=repositories">github.com/itsBarrex</a>.
+      </p>
+      <p style="padding: 0 2rem 2rem; font-family: sans-serif" lang="en">
+        This page needs JavaScript to show the tool list. Every tool is also on GitHub:
+        <a href="https://github.com/itsBarrex?tab=repositories">github.com/itsBarrex</a>.
+      </p>
+    </noscript>
+  </body>
+</html>

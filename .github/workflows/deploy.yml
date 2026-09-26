@@ -1,0 +1,103 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Every 6 hours, so a new release on any tool repo shows up on the site without
+  # anyone touching this repo. The build re-reads the GitHub API and republishes;
+  # nothing is committed, so this never creates history noise.
+  schedule:
+    - cron: '0 */6 * * *'
+  # Lets you re-publish immediately — after tagging a release, say — from the
+  # Actions tab.
+  workflow_dispatch:
+
+# GITHUB_TOKEN permissions for the deploy. Nothing here is a secret we manage:
+# GitHub mints this token per run. Never add a personal access token.
+# `contents: read` is also what lets the tool generator read his public repos.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time. Don't cancel a running one — a half-finished publish
+# is worse than a slightly stale site.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+# itsBarrex/itsbarrex.github.io is a USER-PAGES repo, so it is served from the
+# domain root and the base href is "/". A project repo would need "/<repo>/"
+# here instead. Getting this wrong 404s every script and stylesheet and
+# publishes a blank page while the build still reports success — which is why
+# verify-pages.mjs below re-checks it against the real built output.
+env:
+  BASE_HREF: /
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        # Runs on jsdom, so no browser download is needed in CI. These cover the
+        # things that fail silently in production: a UI string that exists in one
+        # language and not the other, the GitHub-to-app data contract, iframes
+        # missing a title or lazy loading, external links missing rel="noopener",
+        # and the Twitch parent params.
+        run: npm test
+
+      - name: Collect the tool list from GitHub
+        # Writes public/tools.json from the repos carrying the `barrex-tool`
+        # topic. Uses the run's own token for the 5000/hour rate limit. If the
+        # API call fails this exits 0 and leaves the committed file in place, so
+        # a GitHub outage degrades the site to the hand-written tool list instead
+        # of failing the deploy.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run tools
+
+      - name: Build
+        run: npm run build:pages
+
+      - name: Verify the build serves correctly under the Pages base href
+        # Serves dist/ the way Pages does and requests every asset the HTML and
+        # CSS reference, plus tools.json, which nothing in the HTML links to.
+        # This is the check that catches a base-href mistake.
+        run: node scripts/verify-pages.mjs
+
+      - name: Fail if the build leaked a secret-looking value
+        # Cheap guard, not a substitute for review: the build output is public
+        # the moment it is published, so a token in a bundle is a live incident.
+        # tools.json is generated from an API response, so it is in scope here.
+        run: |
+          if grep -rIlE '(ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|gho_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)' dist/itsbarrex/browser; then
+            echo "::error::Possible credential found in build output. Not publishing."
+            exit 1
+          fi
+          echo "No credential patterns found in build output."
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/itsbarrex/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
